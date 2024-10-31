@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <title>User Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .user-container {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transform-origin: center;
+      }
+      .user-container:hover {
+        z-index: 20;
+        transform: scale(1.1) rotate(10deg);
+        box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.15);
+      }
+      .rotate-opposite:hover {
+        transform: scale(1.1) rotate(-10deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="users-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-4 max-w-screen-md mx-auto min-h-dvh place-content-center w-fit"
+    ></div>
+    <template id="user-template">
+      <div
+        class="user-container bg-[#fafbf6] rounded-xl shadow-lg px-4 py-3 flex flex-col relative w-full border border-[#e7e7e5] size-fit"
+      >
+        <img src="" alt="User Image" class="user-image w-24 h-24 rounded-full object-cover" />
+        <div class="user-details mt-2 flex flex-col gap-y-2">
+          <h2 class="user-name text-lg font-semibold text-[#000000]">Name</h2>
+          <p class="user-email text-black font-light">Email</p>
+          <p class="user-age text-black font-light">Age</p>
+          <p class="user-info text-black font-light">Info</p>
+        </div>
+        <button
+          class="btn-close absolute top-2 right-2 bg-transparent text-[#939491] rounded-full text-xl size-fit flex justify-center items-center"
+          onclick="this.closest('.user-container').remove()"
+          aria-label="Close"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </template>
+
+    <script>
+      const users = [
+        {
+          name: "Alice Johnson",
+          email: "alice@example.com",
+          age: 28,
+          info: "Loves hiking and outdoor activities.",
+          image: "https://via.placeholder.com/100",
+        },
+        {
+          name: "Bob Smith",
+          age: 34,
+          info: "Enjoys reading sci-fi novels.",
+          image: "https://via.placeholder.com/100",
+        },
+        {
+          name: "Charlie Brown",
+          email: "charlie@example.com",
+          age: 30,
+          info: "Passionate about cooking.",
+          image: "https://via.placeholder.com/100",
+        },
+        {
+          name: "Daisy Evans",
+          email: "daisy@example.com",
+          age: 25,
+          info: "Avid traveler and photographer.",
+          image: "https://via.placeholder.com/100",
+        },
+        {
+          name: "Ethan Wilson",
+          email: "ethan@example.com",
+          info: "Gamer and tech enthusiast.",
+        },
+      ]
+
+      function populateUsers() {
+        const usersContainer = document.querySelector(".users-container")
+        const template = document.getElementById("user-template").content
+
+        users.forEach((user) => {
+          const userClone = document.importNode(template, true)
+          userClone.querySelector(".user-image").src = user.image || ""
+          userClone.querySelector(".user-name").textContent = user.name || "Name not provided"
+          userClone.querySelector(".user-email").textContent = user.email || ""
+          userClone.querySelector(".user-age").textContent = user.age !== undefined ? `Age: ${user.age}` : ""
+          userClone.querySelector(".user-info").textContent = user.info || ""
+
+          if (Math.random() > 0.5) {
+            userClone.querySelector(".user-container").classList.add("rotate-opposite")
+          }
+
+          usersContainer.appendChild(userClone)
+        })
+      }
+
+      populateUsers()
+    </script>
+  </body>
+</html>
